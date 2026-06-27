@@ -202,61 +202,56 @@
     .entry {
       background: #ffffff;
       border: 1px solid #f7c5db;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 10px;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 12px;
       box-shadow: 0 1px 6px rgba(194, 24, 91, 0.06);
     }
 
-    .entry-row {
+    .entry-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    @media (max-width: 400px) {
-      .entry-row { gap: 8px; }
-      .entry-date { min-width: auto; }
-      .entry-participant { min-width: auto; }
-    }
-
-    .entry-participant {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #c2185b;
-      min-width: 80px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      justify-content: space-between;
+      margin-bottom: 14px;
     }
 
     .entry-date {
-      font-size: 0.9rem;
-      color: #8a4060;
-      min-width: 80px;
-    }
-
-    .entry-hours {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
-      color: #7b1fa2;
-      min-width: 48px;
+      color: #c2185b;
     }
 
-    .entry-quality {
+    .entry-metrics {
       display: flex;
-      align-items: center;
-      gap: 6px;
-      flex: 1;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .metric-pill {
+      background: #fce8f0;
+      border: 1px solid #f7c5db;
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #2d1020;
+      white-space: nowrap;
+    }
+
+    .metric-pill span {
+      color: #c2185b;
     }
 
     .quality-bar-bg {
-      flex: 1;
+      display: inline-block;
+      width: 60px;
       height: 6px;
       background: #f7c5db;
       border-radius: 3px;
       overflow: hidden;
+      vertical-align: middle;
+      margin: 0 6px;
     }
 
     .quality-bar-fill {
@@ -265,20 +260,67 @@
       background: linear-gradient(90deg, #e91e8c, #c2185b);
     }
 
-    .entry-quality-num {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #c2185b;
-      min-width: 32px;
-      text-align: right;
+    .entry-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
     }
 
-    .entry-note {
-      font-size: 0.9rem;
-      color: #8a4060;
-      margin-top: 6px;
-      font-style: italic;
+    @media (max-width: 400px) {
+      .entry-fields { grid-template-columns: 1fr; }
     }
+
+    .entry-field {
+      font-size: 0.85rem;
+    }
+
+    .entry-field-label {
+      color: #8a4060;
+      display: block;
+      margin-bottom: 1px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .entry-field-val {
+      color: #2d1020;
+      font-weight: 500;
+    }
+
+    .entry-field-full {
+      grid-column: 1 / -1;
+    }
+
+    .entry-nightmare-desc {
+      margin-top: 10px;
+      padding: 10px 14px;
+      background: #fce8f0;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: #5a2040;
+      font-style: italic;
+      grid-column: 1 / -1;
+    }
+
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #d4a0b4;
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+      padding: 4px 6px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      min-height: 44px;
+      min-width: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .delete-btn:hover { color: #c2185b; background: #fce8f0; }
 
     .empty {
       text-align: center;
@@ -589,6 +631,12 @@
       render();
     }
 
+    function deleteEntry(id) {
+      const entries = getEntries().filter(e => e.id !== id);
+      localStorage.setItem('sleep-entries', JSON.stringify(entries));
+      render();
+    }
+
     function showToast(msg, isError) {
       const t = document.getElementById('toast');
       t.textContent = msg;
@@ -618,22 +666,61 @@
         return;
       }
 
-      list.innerHTML = entries.map(e => `
+      list.innerHTML = entries.map(e => {
+        const qualityPct = Math.min(parseFloat(e.quality) * 10, 100);
+        const qualityLabel = QUALITY_LABELS[Math.round(parseFloat(e.quality))] || '';
+        const awakenings = e.awaken === 'Yes'
+          ? `Yes &mdash; ${e.awakenCount} time${e.awakenCount === 1 ? '' : 's'}`
+          : (e.awaken || '—');
+        const nightmaresVal = e.nightmares === 'Yes'
+          ? `Yes &mdash; ${e.nightmareCount} time${e.nightmareCount === 1 ? '' : 's'}`
+          : (e.nightmares || '—');
+
+        return `
         <div class="entry">
-          <div class="entry-row">
-            <span class="entry-participant">${escapeHtml(e.participant)}</span>
+          <div class="entry-header">
             <span class="entry-date">${formatDate(e.date)}</span>
-            <span class="entry-hours">${e.hours}h</span>
-            <div class="entry-quality">
-              <div class="quality-bar-bg">
-                <div class="quality-bar-fill" style="width:${e.quality * 10}%"></div>
-              </div>
-              <span class="entry-quality-num">${parseFloat(e.quality).toFixed(1)}/10</span>
+            <button class="delete-btn" onclick="deleteEntry(${e.id})" title="Delete entry" aria-label="Delete entry">&times;</button>
+          </div>
+
+          <div class="entry-metrics">
+            <div class="metric-pill">Sleep: <span>${e.hours}h</span></div>
+            <div class="metric-pill">
+              Refreshed: <span>${parseFloat(e.quality).toFixed(1)}/10</span>
+              <div class="quality-bar-bg"><div class="quality-bar-fill" style="width:${qualityPct}%"></div></div>
+              <span style="font-weight:400;color:#8a4060">${qualityLabel}</span>
             </div>
           </div>
-          <div class="entry-note">Trouble sleeping: ${e.troubleSleeping || '—'} · Nightmares: ${e.nightmares === 'Yes' ? `Yes (${e.nightmareCount})` : (e.nightmares || 'No')}${e.nightmareDescription ? ` · "${escapeHtml(e.nightmareDescription)}"` : ''}${e.notes ? ` · ${escapeHtml(e.notes)}` : ''}</div>
-        </div>
-      `).join('');
+
+          <div class="entry-fields">
+            <div class="entry-field">
+              <span class="entry-field-label">Trouble falling asleep</span>
+              <span class="entry-field-val">${e.troubleSleeping || '—'}</span>
+            </div>
+            <div class="entry-field">
+              <span class="entry-field-label">Fell asleep around</span>
+              <span class="entry-field-val">${e.sleepTime || '—'}</span>
+            </div>
+            <div class="entry-field">
+              <span class="entry-field-label">Time to fall asleep</span>
+              <span class="entry-field-val">${e.sleepLatency || '—'}</span>
+            </div>
+            <div class="entry-field">
+              <span class="entry-field-label">Awoke during night</span>
+              <span class="entry-field-val">${awakenings}</span>
+            </div>
+            <div class="entry-field">
+              <span class="entry-field-label">Nightmares</span>
+              <span class="entry-field-val">${nightmaresVal}</span>
+            </div>
+            ${e.notes ? `<div class="entry-field">
+              <span class="entry-field-label">Notes</span>
+              <span class="entry-field-val">${escapeHtml(e.notes)}</span>
+            </div>` : ''}
+            ${e.nightmareDescription ? `<div class="entry-nightmare-desc">"${escapeHtml(e.nightmareDescription)}"</div>` : ''}
+          </div>
+        </div>`;
+      }).join('');
     }
 
     function escapeHtml(str) {
