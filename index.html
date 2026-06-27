@@ -75,8 +75,8 @@
       border: 1px solid #f0a8c4;
       border-radius: 8px;
       color: #2d1020;
-      font-size: 16px; /* prevent iOS zoom on focus */
-      min-height: 44px; /* WCAG touch target */
+      font-size: 16px;
+      min-height: 44px;
       padding: 10px 14px;
       outline: none;
       transition: border-color 0.2s;
@@ -161,7 +161,7 @@
       width: 100%;
       margin-top: 20px;
       padding: 14px;
-      min-height: 44px; /* WCAG touch target */
+      min-height: 44px;
       background: linear-gradient(135deg, #c2185b, #e91e8c);
       border: none;
       border-radius: 10px;
@@ -288,10 +288,6 @@
       font-weight: 500;
     }
 
-    .entry-field-full {
-      grid-column: 1 / -1;
-    }
-
     .entry-nightmare-desc {
       margin-top: 10px;
       padding: 10px 14px;
@@ -299,8 +295,20 @@
       border-radius: 8px;
       font-size: 0.875rem;
       color: #5a2040;
-      font-style: italic;
       grid-column: 1 / -1;
+    }
+
+    .entry-nightmare-desc-label {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #8a4060;
+      margin-bottom: 4px;
+    }
+
+    .entry-nightmare-desc-text {
+      font-style: italic;
     }
 
     .delete-btn {
@@ -408,7 +416,7 @@
     <label>How refreshed do you feel?</label>
     <div class="quality-display">
       <input type="range" id="quality" min="0" max="10" step="0.1" value="7" aria-label="How refreshed do you feel, 0 to 10" />
-      <div class="quality-value" id="quality-val">7</div>
+      <div class="quality-value" id="quality-val">7.0</div>
     </div>
     <div class="quality-label" id="quality-desc">Good</div>
 
@@ -487,7 +495,6 @@
 
   <script>
     // --- CONFIGURATION ---
-    // Paste your Google Apps Script web app URL here after deployment.
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3mHnaPWBRsPnzlCRely_ksEoTC0bk4G6Mm0dUhKiF_ZZbq7E0pzNVEWCE_s2kgx33/exec';
     // ---------------------
 
@@ -532,7 +539,6 @@
       if (!yes) document.getElementById('nightmare-count').value = '';
     }
 
-    // Re-render history when name changes so participants only see their own data
     document.getElementById('participant').addEventListener('input', () => render());
 
     function getEntries() {
@@ -552,7 +558,7 @@
       const quality = parseFloat(qualityInput.value);
       const notes = document.getElementById('notes').value.trim();
       const sleepTimeUnknown = document.getElementById('sleep-time-unknown').checked;
-      const sleepTime = sleepTimeUnknown ? "Don't know" : (document.getElementById('sleep-time').value || '');
+      const sleepTime = sleepTimeUnknown ? "I don't know" : (document.getElementById('sleep-time').value || '');
 
       const sleepLatencyHours = document.getElementById('sleep-latency-hours').value || '0';
       const sleepLatencyMinutes = document.getElementById('sleep-latency-minutes').value || '0';
@@ -575,7 +581,7 @@
       if (nightmares === 'Yes' && !nightmareCount) { alert('Please enter how many nightmares you had.'); return; }
       const nightmareDescription = nightmares === 'Yes' ? document.getElementById('nightmare-description').value.trim() : '';
 
-      if (!participant) { alert('Please enter your name or study ID.'); return; }
+      if (!participant) { alert('Please enter your ID.'); return; }
       if (!date) { alert('Please select a date.'); return; }
       if (isNaN(hours) || hours < 0 || hours > 24) {
         alert('Please enter valid hours (0–24).');
@@ -685,10 +691,10 @@
 
           <div class="entry-metrics">
             <div class="metric-pill">Sleep: <span>${e.hours}h</span></div>
-            <div class="metric-pill">
+            <div class="metric-pill" style="display:flex;align-items:center;gap:4px;">
               Refreshed: <span>${parseFloat(e.quality).toFixed(1)}/10</span>
               <div class="quality-bar-bg"><div class="quality-bar-fill" style="width:${qualityPct}%"></div></div>
-              <span style="font-weight:400;color:#8a4060">${qualityLabel}</span>
+              <span style="font-weight:400;color:#8a4060;font-size:0.82rem;">${qualityLabel}</span>
             </div>
           </div>
 
@@ -717,7 +723,10 @@
               <span class="entry-field-label">Notes</span>
               <span class="entry-field-val">${escapeHtml(e.notes)}</span>
             </div>` : ''}
-            ${e.nightmareDescription ? `<div class="entry-nightmare-desc"><span style="display:block;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.04em;color:#8a4060;font-style:normal;margin-bottom:4px;">Nightmare description</span>"${escapeHtml(e.nightmareDescription)}"</div>` : ''}
+            ${e.nightmareDescription ? `<div class="entry-nightmare-desc">
+              <span class="entry-nightmare-desc-label">Nightmare description</span>
+              <span class="entry-nightmare-desc-text">"${escapeHtml(e.nightmareDescription)}"</span>
+            </div>` : ''}
           </div>
         </div>`;
       }).join('');
