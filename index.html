@@ -305,6 +305,30 @@
     .toast.error { background: #dc2626; }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
+    .radio-group {
+      display: flex;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      color: #2d1020;
+      cursor: pointer;
+      margin-top: 0;
+    }
+
+    .radio-label input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #c2185b;
+      cursor: pointer;
+      min-height: unset;
+    }
+
     .config-notice {
       background: #fff3e0;
       border: 1px solid #ffb74d;
@@ -346,6 +370,66 @@
     </div>
     <div class="quality-label" id="quality-desc">Good</div>
 
+    <label>Did you have trouble falling asleep last night?</label>
+    <div class="radio-group">
+      <label class="radio-label">
+        <input type="radio" name="trouble-sleeping" value="Yes" /> Yes
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="trouble-sleeping" value="No" /> No
+      </label>
+    </div>
+
+    <label>About what time do you think you fell asleep last night?</label>
+    <div style="display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap;">
+      <input type="time" id="sleep-time" style="flex:1;min-width:140px;" />
+      <label class="radio-label" style="margin-top:0;">
+        <input type="checkbox" id="sleep-time-unknown" onchange="toggleSleepTime()" style="width:18px;height:18px;accent-color:#c2185b;min-height:unset;" /> I don't know
+      </label>
+    </div>
+
+    <label>How long did it take you to fall asleep?</label>
+    <div style="display:flex;gap:12px;margin-top:8px;">
+      <div style="flex:1">
+        <input type="number" id="sleep-latency-hours" min="0" max="23" step="1" placeholder="Hours" />
+      </div>
+      <div style="flex:1">
+        <input type="number" id="sleep-latency-minutes" min="0" max="59" step="1" placeholder="Minutes" />
+      </div>
+    </div>
+
+    <label>Did you awaken during the night?</label>
+    <div class="radio-group">
+      <label class="radio-label">
+        <input type="radio" name="awaken" value="Yes" onchange="toggleAwakenCount()" /> Yes
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="awaken" value="No" onchange="toggleAwakenCount()" /> No
+      </label>
+    </div>
+    <div id="awaken-count-wrapper" style="display:none">
+      <label for="awaken-count">How many times?</label>
+      <input type="number" id="awaken-count" min="1" step="1" placeholder="e.g. 3" />
+    </div>
+
+    <label>Did you experience any nightmares last night?</label>
+    <div class="radio-group">
+      <label class="radio-label">
+        <input type="radio" name="nightmares" value="Yes" onchange="toggleNightmareCount()" /> Yes
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="nightmares" value="No" onchange="toggleNightmareCount()" /> No
+      </label>
+    </div>
+
+    <div id="nightmare-count-wrapper" style="display:none">
+      <label for="nightmare-count">How many nightmares?</label>
+      <input type="number" id="nightmare-count" min="1" step="1" placeholder="e.g. 2" />
+
+      <label for="nightmare-description">Can you describe your nightmare? <span style="font-weight:400;color:#8a4060">(optional)</span></label>
+      <textarea id="nightmare-description" placeholder="Describe what happened..."></textarea>
+    </div>
+
     <label for="notes">Notes (optional)</label>
     <textarea id="notes" placeholder="How did you feel? Any disruptions?"></textarea>
 
@@ -366,7 +450,7 @@
     // ---------------------
 
     const QUALITY_LABELS = {
-      0: 'No Sleep', 1: 'Exhausted', 2: 'Very Groggy', 3: 'Groggy', 4: 'Somewhat Tired',
+      0: 'Very Poor', 1: 'Exhausted', 2: 'Very Groggy', 3: 'Groggy', 4: 'Somewhat Tired',
       5: 'Neutral', 6: 'Decent', 7: 'Good', 8: 'Very Refreshed',
       9: 'Excellent', 10: 'Fully Refreshed'
     };
@@ -387,6 +471,25 @@
       qualityDesc.textContent = QUALITY_LABELS[Math.round(v)];
     });
 
+    function toggleSleepTime() {
+      const unknown = document.getElementById('sleep-time-unknown').checked;
+      const timeInput = document.getElementById('sleep-time');
+      timeInput.disabled = unknown;
+      if (unknown) timeInput.value = '';
+    }
+
+    function toggleAwakenCount() {
+      const yes = document.querySelector('input[name="awaken"][value="Yes"]').checked;
+      document.getElementById('awaken-count-wrapper').style.display = yes ? 'block' : 'none';
+      if (!yes) document.getElementById('awaken-count').value = '';
+    }
+
+    function toggleNightmareCount() {
+      const yes = document.querySelector('input[name="nightmares"][value="Yes"]').checked;
+      document.getElementById('nightmare-count-wrapper').style.display = yes ? 'block' : 'none';
+      if (!yes) document.getElementById('nightmare-count').value = '';
+    }
+
     // Re-render history when name changes so participants only see their own data
     document.getElementById('participant').addEventListener('input', () => render());
 
@@ -406,6 +509,29 @@
       const hours = parseFloat(document.getElementById('hours').value);
       const quality = parseFloat(qualityInput.value);
       const notes = document.getElementById('notes').value.trim();
+      const sleepTimeUnknown = document.getElementById('sleep-time-unknown').checked;
+      const sleepTime = sleepTimeUnknown ? "Don't know" : (document.getElementById('sleep-time').value || '');
+
+      const sleepLatencyHours = document.getElementById('sleep-latency-hours').value || '0';
+      const sleepLatencyMinutes = document.getElementById('sleep-latency-minutes').value || '0';
+      const sleepLatency = `${sleepLatencyHours}h ${sleepLatencyMinutes}m`;
+
+      const troubleSleepingEl = document.querySelector('input[name="trouble-sleeping"]:checked');
+      if (!troubleSleepingEl) { alert('Please answer the trouble falling asleep question.'); return; }
+      const troubleSleeping = troubleSleepingEl.value;
+
+      const awakenEl = document.querySelector('input[name="awaken"]:checked');
+      if (!awakenEl) { alert('Please answer the awakening question.'); return; }
+      const awaken = awakenEl.value;
+      const awakenCount = awaken === 'Yes' ? (parseInt(document.getElementById('awaken-count').value) || '') : '';
+      if (awaken === 'Yes' && !awakenCount) { alert('Please enter how many times you awakened.'); return; }
+
+      const nightmaresEl = document.querySelector('input[name="nightmares"]:checked');
+      if (!nightmaresEl) { alert('Please answer the nightmares question.'); return; }
+      const nightmares = nightmaresEl.value;
+      const nightmareCount = nightmares === 'Yes' ? (parseInt(document.getElementById('nightmare-count').value) || '') : '';
+      if (nightmares === 'Yes' && !nightmareCount) { alert('Please enter how many nightmares you had.'); return; }
+      const nightmareDescription = nightmares === 'Yes' ? document.getElementById('nightmare-description').value.trim() : '';
 
       if (!participant) { alert('Please enter your name or study ID.'); return; }
       if (!date) { alert('Please select a date.'); return; }
@@ -414,7 +540,7 @@
         return;
       }
 
-      const entry = { id: Date.now(), participant, date, hours, quality, notes };
+      const entry = { id: Date.now(), participant, date, hours, quality, sleepTime, sleepLatency, troubleSleeping, awaken, awakenCount, nightmares, nightmareCount, nightmareDescription, notes };
 
       const btn = document.getElementById('save-btn');
       btn.disabled = true;
@@ -440,6 +566,19 @@
 
       document.getElementById('hours').value = '';
       document.getElementById('notes').value = '';
+      document.getElementById('sleep-time').value = '';
+      document.getElementById('sleep-latency-hours').value = '';
+      document.getElementById('sleep-latency-minutes').value = '';
+      document.getElementById('sleep-time').disabled = false;
+      document.getElementById('sleep-time-unknown').checked = false;
+      document.querySelectorAll('input[name="trouble-sleeping"]').forEach(r => r.checked = false);
+      document.querySelectorAll('input[name="awaken"]').forEach(r => r.checked = false);
+      document.getElementById('awaken-count').value = '';
+      document.getElementById('awaken-count-wrapper').style.display = 'none';
+      document.querySelectorAll('input[name="nightmares"]').forEach(r => r.checked = false);
+      document.getElementById('nightmare-count').value = '';
+      document.getElementById('nightmare-description').value = '';
+      document.getElementById('nightmare-count-wrapper').style.display = 'none';
       qualityInput.value = 7;
       qualityVal.textContent = '7.0';
       qualityDesc.textContent = QUALITY_LABELS[7];
@@ -470,7 +609,7 @@
       const list = document.getElementById('history-list');
 
       if (!name) {
-        list.innerHTML = '<p class="empty">Enter your name above to see your history.</p>';
+        list.innerHTML = '<p class="empty">Enter your ID above to see your history.</p>';
         return;
       }
 
@@ -492,7 +631,7 @@
               <span class="entry-quality-num">${parseFloat(e.quality).toFixed(1)}/10</span>
             </div>
           </div>
-          ${e.notes ? `<div class="entry-note">${escapeHtml(e.notes)}</div>` : ''}
+          <div class="entry-note">Trouble sleeping: ${e.troubleSleeping || '—'} · Nightmares: ${e.nightmares === 'Yes' ? `Yes (${e.nightmareCount})` : (e.nightmares || 'No')}${e.nightmareDescription ? ` · "${escapeHtml(e.nightmareDescription)}"` : ''}${e.notes ? ` · ${escapeHtml(e.notes)}` : ''}</div>
         </div>
       `).join('');
     }
