@@ -717,7 +717,7 @@
               <span class="entry-field-label">Notes</span>
               <span class="entry-field-val">${escapeHtml(e.notes)}</span>
             </div>` : ''}
-            ${e.nightmareDescription ? `<div class="entry-nightmare-desc">"${escapeHtml(e.nightmareDescription)}"</div>` : ''}
+            ${e.nightmareDescription ? `<div class="entry-nightmare-desc"><span style="display:block;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.04em;color:#8a4060;font-style:normal;margin-bottom:4px;">Nightmare description</span>"${escapeHtml(e.nightmareDescription)}"</div>` : ''}
           </div>
         </div>`;
       }).join('');
