@@ -117,9 +117,7 @@
       transition: background 0.2s;
     }
 
-    input[type="range"]::-webkit-slider-thumb:hover {
-      background: #ad1457;
-    }
+    input[type="range"]::-webkit-slider-thumb:hover { background: #ad1457; }
 
     .quality-value {
       font-size: 1.5rem;
@@ -173,17 +171,9 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    button.primary:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
+    button.primary:disabled { opacity: 0.6; cursor: not-allowed; }
     button.primary:hover:not(:disabled) { opacity: 0.88; }
-
-    button.primary:focus-visible {
-      outline: 3px solid #c2185b;
-      outline-offset: 3px;
-    }
+    button.primary:focus-visible { outline: 3px solid #c2185b; outline-offset: 3px; }
 
     .history-card {
       width: 100%;
@@ -239,9 +229,7 @@
       white-space: nowrap;
     }
 
-    .metric-pill span {
-      color: #c2185b;
-    }
+    .metric-pill span { color: #c2185b; }
 
     .quality-bar-bg {
       display: inline-block;
@@ -270,9 +258,7 @@
       .entry-fields { grid-template-columns: 1fr; }
     }
 
-    .entry-field {
-      font-size: 0.85rem;
-    }
+    .entry-field { font-size: 0.85rem; }
 
     .entry-field-label {
       color: #8a4060;
@@ -283,10 +269,7 @@
       letter-spacing: 0.04em;
     }
 
-    .entry-field-val {
-      color: #2d1020;
-      font-weight: 500;
-    }
+    .entry-field-val { color: #2d1020; font-weight: 500; }
 
     .entry-nightmare-desc {
       margin-top: 10px;
@@ -307,11 +290,9 @@
       margin-bottom: 4px;
     }
 
-    .entry-nightmare-desc-text {
-      font-style: italic;
-    }
+    .entry-nightmare-desc-text { font-style: italic; }
 
-    .delete-btn {
+    .dismiss-btn {
       background: none;
       border: none;
       color: #d4a0b4;
@@ -328,13 +309,27 @@
       justify-content: center;
     }
 
-    .delete-btn:hover { color: #c2185b; background: #fce8f0; }
+    .dismiss-btn:hover { color: #c2185b; background: #fce8f0; }
 
     .empty {
       text-align: center;
       color: #8a4060;
       padding: 32px 0;
       font-size: 1rem;
+    }
+
+    .history-loading {
+      text-align: center;
+      color: #b0406a;
+      padding: 24px 0;
+      font-size: 0.95rem;
+    }
+
+    .history-error {
+      text-align: center;
+      color: #c2185b;
+      padding: 24px 0;
+      font-size: 0.9rem;
     }
 
     .toast {
@@ -422,12 +417,8 @@
 
     <label>Did you have trouble falling asleep last night?</label>
     <div class="radio-group">
-      <label class="radio-label">
-        <input type="radio" name="trouble-sleeping" value="Yes" /> Yes
-      </label>
-      <label class="radio-label">
-        <input type="radio" name="trouble-sleeping" value="No" /> No
-      </label>
+      <label class="radio-label"><input type="radio" name="trouble-sleeping" value="Yes" /> Yes</label>
+      <label class="radio-label"><input type="radio" name="trouble-sleeping" value="No" /> No</label>
     </div>
 
     <label>About what time do you think you fell asleep last night?</label>
@@ -440,22 +431,14 @@
 
     <label>How long did it take you to fall asleep?</label>
     <div style="display:flex;gap:12px;margin-top:8px;">
-      <div style="flex:1">
-        <input type="number" id="sleep-latency-hours" min="0" max="23" step="1" placeholder="Hours" />
-      </div>
-      <div style="flex:1">
-        <input type="number" id="sleep-latency-minutes" min="0" max="59" step="1" placeholder="Minutes" />
-      </div>
+      <div style="flex:1"><input type="number" id="sleep-latency-hours" min="0" max="23" step="1" placeholder="Hours" /></div>
+      <div style="flex:1"><input type="number" id="sleep-latency-minutes" min="0" max="59" step="1" placeholder="Minutes" /></div>
     </div>
 
     <label>Did you awaken during the night?</label>
     <div class="radio-group">
-      <label class="radio-label">
-        <input type="radio" name="awaken" value="Yes" onchange="toggleAwakenCount()" /> Yes
-      </label>
-      <label class="radio-label">
-        <input type="radio" name="awaken" value="No" onchange="toggleAwakenCount()" /> No
-      </label>
+      <label class="radio-label"><input type="radio" name="awaken" value="Yes" onchange="toggleAwakenCount()" /> Yes</label>
+      <label class="radio-label"><input type="radio" name="awaken" value="No" onchange="toggleAwakenCount()" /> No</label>
     </div>
     <div id="awaken-count-wrapper" style="display:none">
       <label for="awaken-count">How many times?</label>
@@ -464,18 +447,12 @@
 
     <label>Did you experience any nightmares last night?</label>
     <div class="radio-group">
-      <label class="radio-label">
-        <input type="radio" name="nightmares" value="Yes" onchange="toggleNightmareCount()" /> Yes
-      </label>
-      <label class="radio-label">
-        <input type="radio" name="nightmares" value="No" onchange="toggleNightmareCount()" /> No
-      </label>
+      <label class="radio-label"><input type="radio" name="nightmares" value="Yes" onchange="toggleNightmareCount()" /> Yes</label>
+      <label class="radio-label"><input type="radio" name="nightmares" value="No" onchange="toggleNightmareCount()" /> No</label>
     </div>
-
     <div id="nightmare-count-wrapper" style="display:none">
       <label for="nightmare-count">How many nightmares?</label>
       <input type="number" id="nightmare-count" min="1" step="1" placeholder="e.g. 2" />
-
       <label for="nightmare-description">Can you describe your nightmare? <span style="font-weight:400;color:#8a4060">(optional)</span></label>
       <textarea id="nightmare-description" placeholder="Describe what happened..."></textarea>
     </div>
@@ -494,9 +471,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    // --- CONFIGURATION ---
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3mHnaPWBRsPnzlCRely_ksEoTC0bk4G6Mm0dUhKiF_ZZbq7E0pzNVEWCE_s2kgx33/exec';
-    // ---------------------
 
     const QUALITY_LABELS = {
       0: 'Very Poor', 1: 'Exhausted', 2: 'Very Groggy', 3: 'Groggy', 4: 'Somewhat Tired',
@@ -512,19 +487,19 @@
     }
 
     const qualityInput = document.getElementById('quality');
-    const qualityVal = document.getElementById('quality-val');
+    const qualityVal  = document.getElementById('quality-val');
     const qualityDesc = document.getElementById('quality-desc');
     qualityInput.addEventListener('input', () => {
       const v = parseFloat(qualityInput.value);
-      qualityVal.textContent = v.toFixed(1);
+      qualityVal.textContent  = v.toFixed(1);
       qualityDesc.textContent = QUALITY_LABELS[Math.round(v)];
     });
 
     function toggleSleepTime() {
       const unknown = document.getElementById('sleep-time-unknown').checked;
-      const timeInput = document.getElementById('sleep-time');
-      timeInput.disabled = unknown;
-      if (unknown) timeInput.value = '';
+      const t = document.getElementById('sleep-time');
+      t.disabled = unknown;
+      if (unknown) t.value = '';
     }
 
     function toggleAwakenCount() {
@@ -539,26 +514,115 @@
       if (!yes) document.getElementById('nightmare-count').value = '';
     }
 
-    document.getElementById('participant').addEventListener('input', () => render());
+    // Entries dismissed this session (hides card, does not delete from Sheets)
+    const dismissedIds = new Set();
 
-    function getEntries() {
-      return JSON.parse(localStorage.getItem('sleep-entries') || '[]');
+    function dismissEntry(id) {
+      dismissedIds.add(id);
+      const el = document.getElementById('entry-' + id);
+      if (el) el.style.display = 'none';
     }
 
-    function saveLocal(entry) {
-      const entries = getEntries();
-      entries.unshift(entry);
-      localStorage.setItem('sleep-entries', JSON.stringify(entries));
+    // Debounce ID input so we don't fetch on every keystroke
+    let fetchTimer = null;
+    document.getElementById('participant').addEventListener('input', () => {
+      clearTimeout(fetchTimer);
+      fetchTimer = setTimeout(loadHistory, 600);
+    });
+
+    async function loadHistory() {
+      const name = document.getElementById('participant').value.trim();
+      const list = document.getElementById('history-list');
+
+      if (!name) {
+        list.innerHTML = '<p class="empty">Enter your ID above to see your history.</p>';
+        return;
+      }
+
+      list.innerHTML = '<p class="history-loading">Loading history…</p>';
+
+      try {
+        const resp = await fetch(`${SCRIPT_URL}?participant=${encodeURIComponent(name)}`, { redirect: 'follow' });
+        const json = await resp.json();
+        if (json.status !== 'ok') throw new Error(json.message || 'Unknown error');
+
+        const entries = json.entries || [];
+
+        if (entries.length === 0) {
+          list.innerHTML = '<p class="empty">No entries yet. Log your first night above.</p>';
+          return;
+        }
+
+        list.innerHTML = entries.map(e => {
+          const qualityPct   = Math.min(parseFloat(e.quality) * 10, 100);
+          const qualityLabel = QUALITY_LABELS[Math.round(parseFloat(e.quality))] || '';
+          const awakenings   = e.awaken === 'Yes'
+            ? `Yes &mdash; ${e.awakenCount} time${e.awakenCount == 1 ? '' : 's'}`
+            : (e.awaken || '—');
+          const nightmaresVal = e.nightmares === 'Yes'
+            ? `Yes &mdash; ${e.nightmareCount} time${e.nightmareCount == 1 ? '' : 's'}`
+            : (e.nightmares || '—');
+          const hidden = dismissedIds.has(e.id) ? ' style="display:none"' : '';
+
+          return `
+          <div class="entry" id="entry-${e.id}"${hidden}>
+            <div class="entry-header">
+              <span class="entry-date">${formatDate(e.date)}</span>
+              <button class="dismiss-btn" onclick="dismissEntry(${e.id})" title="Dismiss" aria-label="Dismiss entry">&times;</button>
+            </div>
+            <div class="entry-metrics">
+              <div class="metric-pill">Sleep: <span>${e.hours}h</span></div>
+              <div class="metric-pill" style="display:flex;align-items:center;gap:4px;">
+                Refreshed: <span>${parseFloat(e.quality).toFixed(1)}/10</span>
+                <div class="quality-bar-bg"><div class="quality-bar-fill" style="width:${qualityPct}%"></div></div>
+                <span style="font-weight:400;color:#8a4060;font-size:0.82rem;">${qualityLabel}</span>
+              </div>
+            </div>
+            <div class="entry-fields">
+              <div class="entry-field">
+                <span class="entry-field-label">Trouble falling asleep</span>
+                <span class="entry-field-val">${e.troubleSleeping || '—'}</span>
+              </div>
+              <div class="entry-field">
+                <span class="entry-field-label">Fell asleep around</span>
+                <span class="entry-field-val">${e.sleepTime || '—'}</span>
+              </div>
+              <div class="entry-field">
+                <span class="entry-field-label">Time to fall asleep</span>
+                <span class="entry-field-val">${e.sleepLatency || '—'}</span>
+              </div>
+              <div class="entry-field">
+                <span class="entry-field-label">Awoke during night</span>
+                <span class="entry-field-val">${awakenings}</span>
+              </div>
+              <div class="entry-field">
+                <span class="entry-field-label">Nightmares</span>
+                <span class="entry-field-val">${nightmaresVal}</span>
+              </div>
+              ${e.notes ? `<div class="entry-field">
+                <span class="entry-field-label">Notes</span>
+                <span class="entry-field-val">${escapeHtml(String(e.notes))}</span>
+              </div>` : ''}
+              ${e.nightmareDescription ? `<div class="entry-nightmare-desc">
+                <span class="entry-nightmare-desc-label">Nightmare description</span>
+                <span class="entry-nightmare-desc-text">"${escapeHtml(String(e.nightmareDescription))}"</span>
+              </div>` : ''}
+            </div>
+          </div>`;
+        }).join('');
+
+      } catch (err) {
+        list.innerHTML = '<p class="history-error">Could not load history. Check your connection and try again.</p>';
+      }
     }
 
     async function logSleep() {
       const participant = document.getElementById('participant').value.trim();
-      const date = dateInput.value;
+      const date  = dateInput.value;
       const hours = parseFloat(document.getElementById('hours').value);
       const quality = parseFloat(qualityInput.value);
       const notes = document.getElementById('notes').value.trim();
 
-      // Required field checks (top to bottom order)
       if (!participant) { alert('Please enter your study ID before saving.'); return; }
       if (!date) { alert('Please select the date for this entry.'); return; }
       if (isNaN(hours) || hours < 0 || hours > 24) { alert('Please enter how many hours you slept (between 0 and 24).'); return; }
@@ -572,7 +636,7 @@
       if (!sleepTimeUnknown && !sleepTimeVal) { alert('Please enter the time you fell asleep, or check "I don\'t know" if you\'re unsure.'); return; }
       const sleepTime = sleepTimeUnknown ? "I don't know" : sleepTimeVal;
 
-      const sleepLatencyHours = document.getElementById('sleep-latency-hours').value;
+      const sleepLatencyHours   = document.getElementById('sleep-latency-hours').value;
       const sleepLatencyMinutes = document.getElementById('sleep-latency-minutes').value;
       if (sleepLatencyHours === '' && sleepLatencyMinutes === '') { alert('Please enter how long it took you to fall asleep. Enter 0 hours and 0 minutes if you fell asleep right away.'); return; }
       const sleepLatency = `${sleepLatencyHours || '0'}h ${sleepLatencyMinutes || '0'}m`;
@@ -590,30 +654,29 @@
       if (nightmares === 'Yes' && !nightmareCount) { alert('Please enter how many nightmares you had.'); return; }
       const nightmareDescription = nightmares === 'Yes' ? document.getElementById('nightmare-description').value.trim() : '';
 
-      const entry = { id: Date.now(), participant, date, hours, quality, sleepTime, sleepLatency, troubleSleeping, awaken, awakenCount, nightmares, nightmareCount, nightmareDescription, notes };
+      const entry = { participant, date, hours, quality, sleepTime, sleepLatency, troubleSleeping, awaken, awakenCount, nightmares, nightmareCount, nightmareDescription, notes };
 
       const btn = document.getElementById('save-btn');
       btn.disabled = true;
       btn.textContent = 'Saving…';
 
-      saveLocal(entry);
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(entry)
+        });
+      } catch (err) { /* no-cors -- can't read response */ }
 
-      if (SCRIPT_URL !== 'YOUR_SCRIPT_URL') {
-        try {
-          await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(entry)
-          });
-          showToast('Entry saved!', false);
-        } catch (err) {
-          showToast('Saved locally — cloud sync failed.', true);
-        }
-      } else {
-        showToast('Entry saved locally.', false);
-      }
+      showToast('Entry saved!', false);
+      resetForm();
 
+      // Wait for Sheets to process, then refresh history
+      setTimeout(loadHistory, 2000);
+    }
+
+    function resetForm() {
       document.getElementById('hours').value = '';
       document.getElementById('notes').value = '';
       document.getElementById('sleep-time').value = '';
@@ -630,19 +693,12 @@
       document.getElementById('nightmare-description').value = '';
       document.getElementById('nightmare-count-wrapper').style.display = 'none';
       qualityInput.value = 7;
-      qualityVal.textContent = '7.0';
+      qualityVal.textContent  = '7.0';
       qualityDesc.textContent = QUALITY_LABELS[7];
       dateInput.value = new Date().toISOString().split('T')[0];
+      const btn = document.getElementById('save-btn');
       btn.disabled = false;
       btn.textContent = 'Save Entry';
-
-      render();
-    }
-
-    function deleteEntry(id) {
-      const entries = getEntries().filter(e => e.id !== id);
-      localStorage.setItem('sleep-entries', JSON.stringify(entries));
-      render();
     }
 
     function showToast(msg, isError) {
@@ -653,92 +709,17 @@
     }
 
     function formatDate(str) {
+      if (!str) return '—';
       const [y, m, d] = str.split('-');
       const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       return `${months[+m-1]} ${+d}, ${y}`;
-    }
-
-    function render() {
-      const name = document.getElementById('participant').value.trim().toLowerCase();
-      const all = getEntries();
-      const entries = name ? all.filter(e => e.participant.toLowerCase() === name) : [];
-      const list = document.getElementById('history-list');
-
-      if (!name) {
-        list.innerHTML = '<p class="empty">Enter your ID above to see your history.</p>';
-        return;
-      }
-
-      if (entries.length === 0) {
-        list.innerHTML = '<p class="empty">No entries yet. Log your first night above.</p>';
-        return;
-      }
-
-      list.innerHTML = entries.map(e => {
-        const qualityPct = Math.min(parseFloat(e.quality) * 10, 100);
-        const qualityLabel = QUALITY_LABELS[Math.round(parseFloat(e.quality))] || '';
-        const awakenings = e.awaken === 'Yes'
-          ? `Yes &mdash; ${e.awakenCount} time${e.awakenCount === 1 ? '' : 's'}`
-          : (e.awaken || '—');
-        const nightmaresVal = e.nightmares === 'Yes'
-          ? `Yes &mdash; ${e.nightmareCount} time${e.nightmareCount === 1 ? '' : 's'}`
-          : (e.nightmares || '—');
-
-        return `
-        <div class="entry">
-          <div class="entry-header">
-            <span class="entry-date">${formatDate(e.date)}</span>
-            <button class="delete-btn" onclick="deleteEntry(${e.id})" title="Delete entry" aria-label="Delete entry">&times;</button>
-          </div>
-
-          <div class="entry-metrics">
-            <div class="metric-pill">Sleep: <span>${e.hours}h</span></div>
-            <div class="metric-pill" style="display:flex;align-items:center;gap:4px;">
-              Refreshed: <span>${parseFloat(e.quality).toFixed(1)}/10</span>
-              <div class="quality-bar-bg"><div class="quality-bar-fill" style="width:${qualityPct}%"></div></div>
-              <span style="font-weight:400;color:#8a4060;font-size:0.82rem;">${qualityLabel}</span>
-            </div>
-          </div>
-
-          <div class="entry-fields">
-            <div class="entry-field">
-              <span class="entry-field-label">Trouble falling asleep</span>
-              <span class="entry-field-val">${e.troubleSleeping || '—'}</span>
-            </div>
-            <div class="entry-field">
-              <span class="entry-field-label">Fell asleep around</span>
-              <span class="entry-field-val">${e.sleepTime || '—'}</span>
-            </div>
-            <div class="entry-field">
-              <span class="entry-field-label">Time to fall asleep</span>
-              <span class="entry-field-val">${e.sleepLatency || '—'}</span>
-            </div>
-            <div class="entry-field">
-              <span class="entry-field-label">Awoke during night</span>
-              <span class="entry-field-val">${awakenings}</span>
-            </div>
-            <div class="entry-field">
-              <span class="entry-field-label">Nightmares</span>
-              <span class="entry-field-val">${nightmaresVal}</span>
-            </div>
-            ${e.notes ? `<div class="entry-field">
-              <span class="entry-field-label">Notes</span>
-              <span class="entry-field-val">${escapeHtml(e.notes)}</span>
-            </div>` : ''}
-            ${e.nightmareDescription ? `<div class="entry-nightmare-desc">
-              <span class="entry-nightmare-desc-label">Nightmare description</span>
-              <span class="entry-nightmare-desc-text">"${escapeHtml(e.nightmareDescription)}"</span>
-            </div>` : ''}
-          </div>
-        </div>`;
-      }).join('');
     }
 
     function escapeHtml(str) {
       return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     }
 
-    render();
+    document.getElementById('history-list').innerHTML = '<p class="empty">Enter your ID above to see your history.</p>';
   </script>
 </body>
 </html>
