@@ -65,7 +65,7 @@
   <div class="card">
     <h2>Log Sleep</h2>
     <label for="participant">ID</label>
-    <input type="text" id="participant" placeholder="e.g. 001" />
+    <input type="text" id="participant" placeholder="e.g. 001" onblur="this.value=this.value.trim()" />
     <label for="date">Date</label>
     <input type="date" id="date" />
     <label for="hours">Hours slept</label>
