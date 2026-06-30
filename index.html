@@ -6,421 +6,81 @@
   <title>Sleep Tracker</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #fce8f0;
-      color: #2d1020;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 32px 16px;
-    }
-
-    @media (max-width: 480px) {
-      body { padding: 20px 12px; }
-    }
-
-    h1 {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      background: linear-gradient(135deg, #c2185b, #e91e8c);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .subtitle {
-      color: #8a4060;
-      margin-bottom: 36px;
-      font-size: 1rem;
-    }
-
-    .card {
-      background: #ffffff;
-      border: 1px solid #f7c5db;
-      border-radius: 16px;
-      padding: 28px;
-      width: 100%;
-      max-width: 480px;
-      margin-bottom: 24px;
-      box-shadow: 0 2px 12px rgba(194, 24, 91, 0.08);
-    }
-
-    .card h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #b0406a;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-size: 0.9rem;
-      color: #7a3050;
-      margin-bottom: 6px;
-      margin-top: 16px;
-    }
-
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #fce8f0; color: #2d1020; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 32px 16px; }
+    @media (max-width: 480px) { body { padding: 20px 12px; } }
+    h1 { font-size: 2rem; font-weight: 700; margin-bottom: 8px; background: linear-gradient(135deg, #c2185b, #e91e8c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { color: #8a4060; margin-bottom: 36px; font-size: 1rem; }
+    .card { background: #ffffff; border: 1px solid #f7c5db; border-radius: 16px; padding: 28px; width: 100%; max-width: 480px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(194,24,91,0.08); }
+    .card h2 { font-size: 1rem; font-weight: 600; color: #b0406a; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 20px; }
+    label { display: block; font-size: 0.9rem; color: #7a3050; margin-bottom: 6px; margin-top: 16px; }
     label:first-of-type { margin-top: 0; }
-
-    input[type="date"],
-    input[type="number"],
-    input[type="text"] {
-      width: 100%;
-      background: #fff5f8;
-      border: 1px solid #f0a8c4;
-      border-radius: 8px;
-      color: #2d1020;
-      font-size: 16px;
-      min-height: 44px;
-      padding: 10px 14px;
-      outline: none;
-      transition: border-color 0.2s;
-      -webkit-appearance: none;
-    }
-
-    input[type="date"]:focus,
-    input[type="number"]:focus,
-    input[type="text"]:focus {
-      border-color: #c2185b;
-      outline: 2px solid #c2185b;
-      outline-offset: 2px;
-    }
-
-    .quality-display {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 8px;
-    }
-
-    input[type="range"] {
-      flex: 1;
-      -webkit-appearance: none;
-      height: 6px;
-      border-radius: 3px;
-      background: #f0a8c4;
-      outline: none;
-    }
-
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: #c2185b;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover { background: #ad1457; }
-
-    .quality-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      min-width: 40px;
-      text-align: center;
-      color: #c2185b;
-    }
-
-    .quality-label {
-      font-size: 0.9rem;
-      color: #8a4060;
-      text-align: center;
-      margin-top: 4px;
-    }
-
-    textarea {
-      width: 100%;
-      background: #fff5f8;
-      border: 1px solid #f0a8c4;
-      border-radius: 8px;
-      color: #2d1020;
-      font-size: 1rem;
-      padding: 10px 14px;
-      resize: vertical;
-      min-height: 72px;
-      outline: none;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-
-    textarea:focus {
-      border-color: #c2185b;
-      outline: 2px solid #c2185b;
-      outline-offset: 2px;
-    }
-
-    button.primary {
-      width: 100%;
-      margin-top: 20px;
-      padding: 14px;
-      min-height: 44px;
-      background: linear-gradient(135deg, #c2185b, #e91e8c);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    input[type="date"], input[type="number"], input[type="text"] { width: 100%; background: #fff5f8; border: 1px solid #f0a8c4; border-radius: 8px; color: #2d1020; font-size: 16px; min-height: 44px; padding: 10px 14px; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
+    input[type="date"]:focus, input[type="number"]:focus, input[type="text"]:focus { border-color: #c2185b; outline: 2px solid #c2185b; outline-offset: 2px; }
+    .quality-display { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+    input[type="range"] { flex: 1; -webkit-appearance: none; height: 6px; border-radius: 3px; background: #f0a8c4; outline: none; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: #c2185b; cursor: pointer; }
+    .quality-value { font-size: 1.5rem; font-weight: 700; min-width: 40px; text-align: center; color: #c2185b; }
+    .quality-label { font-size: 0.9rem; color: #8a4060; text-align: center; margin-top: 4px; }
+    textarea { width: 100%; background: #fff5f8; border: 1px solid #f0a8c4; border-radius: 8px; color: #2d1020; font-size: 1rem; padding: 10px 14px; resize: vertical; min-height: 72px; outline: none; font-family: inherit; transition: border-color 0.2s; }
+    textarea:focus { border-color: #c2185b; outline: 2px solid #c2185b; outline-offset: 2px; }
+    button.primary { width: 100%; margin-top: 20px; padding: 14px; min-height: 44px; background: linear-gradient(135deg, #c2185b, #e91e8c); border: none; border-radius: 10px; color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
     button.primary:disabled { opacity: 0.6; cursor: not-allowed; }
     button.primary:hover:not(:disabled) { opacity: 0.88; }
-    button.primary:focus-visible { outline: 3px solid #c2185b; outline-offset: 3px; }
-
-    .history-card {
-      width: 100%;
-      max-width: 480px;
-    }
-
-    .history-card h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #b0406a;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 16px;
-    }
-
-    .entry {
-      background: #ffffff;
-      border: 1px solid #f7c5db;
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 12px;
-      box-shadow: 0 1px 6px rgba(194, 24, 91, 0.06);
-    }
-
-    .entry-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-    }
-
-    .entry-date {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #c2185b;
-    }
-
-    .entry-metrics {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .metric-pill {
-      background: #fce8f0;
-      border: 1px solid #f7c5db;
-      border-radius: 999px;
-      padding: 5px 14px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #2d1020;
-      white-space: nowrap;
-    }
-
+    .history-card { width: 100%; max-width: 480px; }
+    .history-card h2 { font-size: 1rem; font-weight: 600; color: #b0406a; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+    .entry { background: #ffffff; border: 1px solid #f7c5db; border-radius: 14px; padding: 18px; margin-bottom: 12px; box-shadow: 0 1px 6px rgba(194,24,91,0.06); }
+    .entry-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .entry-date { font-size: 1rem; font-weight: 700; color: #c2185b; }
+    .entry-metrics { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    .metric-pill { background: #fce8f0; border: 1px solid #f7c5db; border-radius: 999px; padding: 5px 14px; font-size: 0.9rem; font-weight: 600; color: #2d1020; white-space: nowrap; }
     .metric-pill span { color: #c2185b; }
-
-    .quality-bar-bg {
-      display: inline-block;
-      width: 60px;
-      height: 6px;
-      background: #f7c5db;
-      border-radius: 3px;
-      overflow: hidden;
-      vertical-align: middle;
-      margin: 0 6px;
-    }
-
-    .quality-bar-fill {
-      height: 100%;
-      border-radius: 3px;
-      background: linear-gradient(90deg, #e91e8c, #c2185b);
-    }
-
-    .entry-fields {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px 16px;
-    }
-
-    @media (max-width: 400px) {
-      .entry-fields { grid-template-columns: 1fr; }
-    }
-
+    .quality-bar-bg { display: inline-block; width: 60px; height: 6px; background: #f7c5db; border-radius: 3px; overflow: hidden; vertical-align: middle; margin: 0 6px; }
+    .quality-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #e91e8c, #c2185b); }
+    .entry-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; }
+    @media (max-width: 400px) { .entry-fields { grid-template-columns: 1fr; } }
     .entry-field { font-size: 0.85rem; }
-
-    .entry-field-label {
-      color: #8a4060;
-      display: block;
-      margin-bottom: 1px;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
+    .entry-field-label { color: #8a4060; display: block; margin-bottom: 1px; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
     .entry-field-val { color: #2d1020; font-weight: 500; }
-
-    .entry-nightmare-desc {
-      margin-top: 10px;
-      padding: 10px 14px;
-      background: #fce8f0;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      color: #5a2040;
-      grid-column: 1 / -1;
-    }
-
-    .entry-nightmare-desc-label {
-      display: block;
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: #8a4060;
-      margin-bottom: 4px;
-    }
-
+    .entry-nightmare-desc { margin-top: 10px; padding: 10px 14px; background: #fce8f0; border-radius: 8px; font-size: 0.875rem; color: #5a2040; grid-column: 1 / -1; }
+    .entry-nightmare-desc-label { display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: #8a4060; margin-bottom: 4px; }
     .entry-nightmare-desc-text { font-style: italic; }
-
-    .dismiss-btn {
-      background: none;
-      border: none;
-      color: #d4a0b4;
-      cursor: pointer;
-      font-size: 1.2rem;
-      line-height: 1;
-      padding: 4px 6px;
-      border-radius: 6px;
-      transition: color 0.2s, background 0.2s;
-      min-height: 44px;
-      min-width: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .dismiss-btn { background: none; border: none; color: #d4a0b4; cursor: pointer; font-size: 1.2rem; padding: 4px 6px; border-radius: 6px; transition: color 0.2s, background 0.2s; min-height: 44px; min-width: 44px; display: flex; align-items: center; justify-content: center; }
     .dismiss-btn:hover { color: #c2185b; background: #fce8f0; }
-
-    .empty {
-      text-align: center;
-      color: #8a4060;
-      padding: 32px 0;
-      font-size: 1rem;
-    }
-
-    .history-loading {
-      text-align: center;
-      color: #b0406a;
-      padding: 24px 0;
-      font-size: 0.95rem;
-    }
-
-    .history-error {
-      text-align: center;
-      color: #c2185b;
-      padding: 24px 0;
-      font-size: 0.9rem;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(80px);
-      padding: 12px 24px;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 500;
-      transition: transform 0.3s ease;
-      z-index: 999;
-      background: #16a34a;
-      color: #fff;
-    }
-
+    .empty { text-align: center; color: #8a4060; padding: 32px 0; font-size: 1rem; }
+    .history-loading { text-align: center; color: #b0406a; padding: 24px 0; font-size: 0.95rem; }
+    .history-error { text-align: center; color: #c2185b; padding: 24px 0; font-size: 0.9rem; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); padding: 12px 24px; border-radius: 999px; font-size: 1rem; font-weight: 500; transition: transform 0.3s ease; z-index: 999; background: #16a34a; color: #fff; }
     .toast.error { background: #dc2626; }
     .toast.show { transform: translateX(-50%) translateY(0); }
-
-    .radio-group {
-      display: flex;
-      gap: 24px;
-      margin-top: 8px;
-    }
-
-    .radio-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1rem;
-      color: #2d1020;
-      cursor: pointer;
-      margin-top: 0;
-    }
-
-    .radio-label input[type="radio"] {
-      width: 18px;
-      height: 18px;
-      accent-color: #c2185b;
-      cursor: pointer;
-      min-height: unset;
-    }
-
-    .config-notice {
-      background: #fff3e0;
-      border: 1px solid #ffb74d;
-      border-radius: 10px;
-      padding: 14px 16px;
-      font-size: 0.9rem;
-      color: #e65100;
-      margin-bottom: 20px;
-      width: 100%;
-      max-width: 480px;
-    }
+    .radio-group { display: flex; gap: 24px; margin-top: 8px; }
+    .radio-label { display: flex; align-items: center; gap: 8px; font-size: 1rem; color: #2d1020; cursor: pointer; margin-top: 0; }
+    .radio-label input[type="radio"] { width: 18px; height: 18px; accent-color: #c2185b; cursor: pointer; min-height: unset; }
+    .config-notice { background: #fff3e0; border: 1px solid #ffb74d; border-radius: 10px; padding: 14px 16px; font-size: 0.9rem; color: #e65100; margin-bottom: 20px; width: 100%; max-width: 480px; }
   </style>
 </head>
 <body>
-
   <h1>🌙 Sleep Tracker</h1>
   <p class="subtitle">Log your sleep, spot your patterns.</p>
-
-  <div class="config-notice" id="config-notice" style="display:none">
-    ⚠️ Google Sheets not connected yet. Entries are saved locally only.
-  </div>
-
+  <div class="config-notice" id="config-notice" style="display:none">⚠️ Google Sheets not connected yet. Entries are saved locally only.</div>
   <div class="card">
     <h2>Log Sleep</h2>
-
     <label for="participant">ID</label>
     <input type="text" id="participant" placeholder="e.g. 001" />
-
     <label for="date">Date</label>
     <input type="date" id="date" />
-
     <label for="hours">Hours slept</label>
     <input type="number" id="hours" min="0" max="24" step="0.5" placeholder="e.g. 7.5" />
-
     <label>How refreshed do you feel?</label>
     <div class="quality-display">
       <input type="range" id="quality" min="0" max="10" step="0.1" value="7" aria-label="How refreshed do you feel, 0 to 10" />
       <div class="quality-value" id="quality-val">7.0</div>
     </div>
     <div class="quality-label" id="quality-desc">Good</div>
-
     <label>Did you have trouble falling asleep last night?</label>
     <div class="radio-group">
       <label class="radio-label"><input type="radio" name="trouble-sleeping" value="Yes" /> Yes</label>
       <label class="radio-label"><input type="radio" name="trouble-sleeping" value="No" /> No</label>
     </div>
-
     <label>About what time do you think you fell asleep last night?</label>
     <div style="display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap;">
       <input type="time" id="sleep-time" style="flex:1;min-width:140px;" />
@@ -428,13 +88,11 @@
         <input type="checkbox" id="sleep-time-unknown" onchange="toggleSleepTime()" style="width:18px;height:18px;accent-color:#c2185b;min-height:unset;" /> I don't know
       </label>
     </div>
-
     <label>How long did it take you to fall asleep?</label>
     <div style="display:flex;gap:12px;margin-top:8px;">
       <div style="flex:1"><input type="number" id="sleep-latency-hours" min="0" max="23" step="1" placeholder="Hours" /></div>
       <div style="flex:1"><input type="number" id="sleep-latency-minutes" min="0" max="59" step="1" placeholder="Minutes" /></div>
     </div>
-
     <label>Did you awaken during the night?</label>
     <div class="radio-group">
       <label class="radio-label"><input type="radio" name="awaken" value="Yes" onchange="toggleAwakenCount()" /> Yes</label>
@@ -444,7 +102,6 @@
       <label for="awaken-count">How many times?</label>
       <input type="number" id="awaken-count" min="1" step="1" placeholder="e.g. 3" />
     </div>
-
     <label>Did you experience any nightmares last night?</label>
     <div class="radio-group">
       <label class="radio-label"><input type="radio" name="nightmares" value="Yes" onchange="toggleNightmareCount()" /> Yes</label>
@@ -456,232 +113,109 @@
       <label for="nightmare-description">Can you describe your nightmare? <span style="font-weight:400;color:#8a4060">(optional)</span></label>
       <textarea id="nightmare-description" placeholder="Describe what happened..."></textarea>
     </div>
-
     <label for="notes">Notes (optional)</label>
     <textarea id="notes" placeholder="How did you feel? Any disruptions?"></textarea>
-
     <button class="primary" id="save-btn" onclick="logSleep()">Save Entry</button>
   </div>
-
   <div class="history-card">
     <h2>Your History</h2>
     <div id="history-list"></div>
   </div>
-
   <div class="toast" id="toast"></div>
-
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw3mHnaPWBRsPnzlCRely_ksEoTC0bk4G6Mm0dUhKiF_ZZbq7E0pzNVEWCE_s2kgx33/exec';
-
-    const QUALITY_LABELS = {
-      0: 'Very Poor', 1: 'Exhausted', 2: 'Very Groggy', 3: 'Groggy', 4: 'Somewhat Tired',
-      5: 'Neutral', 6: 'Decent', 7: 'Good', 8: 'Very Refreshed',
-      9: 'Excellent', 10: 'Fully Refreshed'
-    };
-
+    const QUALITY_LABELS = { 0:'Very Poor',1:'Exhausted',2:'Very Groggy',3:'Groggy',4:'Somewhat Tired',5:'Neutral',6:'Decent',7:'Good',8:'Very Refreshed',9:'Excellent',10:'Fully Refreshed' };
     const dateInput = document.getElementById('date');
     dateInput.value = new Date().toISOString().split('T')[0];
-
-    if (SCRIPT_URL === 'YOUR_SCRIPT_URL') {
-      document.getElementById('config-notice').style.display = 'block';
-    }
-
+    if (SCRIPT_URL === 'YOUR_SCRIPT_URL') document.getElementById('config-notice').style.display = 'block';
     const qualityInput = document.getElementById('quality');
-    const qualityVal  = document.getElementById('quality-val');
+    const qualityVal = document.getElementById('quality-val');
     const qualityDesc = document.getElementById('quality-desc');
-    qualityInput.addEventListener('input', () => {
-      const v = parseFloat(qualityInput.value);
-      qualityVal.textContent  = v.toFixed(1);
-      qualityDesc.textContent = QUALITY_LABELS[Math.round(v)];
-    });
-
-    function toggleSleepTime() {
-      const unknown = document.getElementById('sleep-time-unknown').checked;
-      const t = document.getElementById('sleep-time');
-      t.disabled = unknown;
-      if (unknown) t.value = '';
-    }
-
-    function toggleAwakenCount() {
-      const yes = document.querySelector('input[name="awaken"][value="Yes"]').checked;
-      document.getElementById('awaken-count-wrapper').style.display = yes ? 'block' : 'none';
-      if (!yes) document.getElementById('awaken-count').value = '';
-    }
-
-    function toggleNightmareCount() {
-      const yes = document.querySelector('input[name="nightmares"][value="Yes"]').checked;
-      document.getElementById('nightmare-count-wrapper').style.display = yes ? 'block' : 'none';
-      if (!yes) document.getElementById('nightmare-count').value = '';
-    }
-
-    // Entries dismissed this session (hides card, does not delete from Sheets)
+    qualityInput.addEventListener('input', () => { const v = parseFloat(qualityInput.value); qualityVal.textContent = v.toFixed(1); qualityDesc.textContent = QUALITY_LABELS[Math.round(v)]; });
+    function toggleSleepTime() { const u = document.getElementById('sleep-time-unknown').checked; const t = document.getElementById('sleep-time'); t.disabled = u; if (u) t.value = ''; }
+    function toggleAwakenCount() { const y = document.querySelector('input[name="awaken"][value="Yes"]').checked; document.getElementById('awaken-count-wrapper').style.display = y ? 'block' : 'none'; if (!y) document.getElementById('awaken-count').value = ''; }
+    function toggleNightmareCount() { const y = document.querySelector('input[name="nightmares"][value="Yes"]').checked; document.getElementById('nightmare-count-wrapper').style.display = y ? 'block' : 'none'; if (!y) document.getElementById('nightmare-count').value = ''; }
     const dismissedIds = new Set();
-
-    function dismissEntry(id) {
-      dismissedIds.add(id);
-      const el = document.getElementById('entry-' + id);
-      if (el) el.style.display = 'none';
-    }
-
-    // Debounce ID input so we don't fetch on every keystroke
+    function dismissEntry(id) { dismissedIds.add(id); const el = document.getElementById('entry-' + id); if (el) el.style.display = 'none'; }
     let fetchTimer = null;
-    document.getElementById('participant').addEventListener('input', () => {
-      clearTimeout(fetchTimer);
-      fetchTimer = setTimeout(loadHistory, 600);
-    });
-
+    document.getElementById('participant').addEventListener('input', () => { clearTimeout(fetchTimer); fetchTimer = setTimeout(loadHistory, 600); });
     async function loadHistory() {
       const name = document.getElementById('participant').value.trim();
       const list = document.getElementById('history-list');
-
-      if (!name) {
-        list.innerHTML = '<p class="empty">Enter your ID above to see your history.</p>';
-        return;
-      }
-
+      if (!name) { list.innerHTML = '<p class="empty">Enter your ID above to see your history.</p>'; return; }
       list.innerHTML = '<p class="history-loading">Loading history…</p>';
-
       try {
-        const resp = await fetch(`${SCRIPT_URL}?participant=${encodeURIComponent(name)}`, { redirect: 'follow' });
+        const resp = await fetch(SCRIPT_URL + '?participant=' + encodeURIComponent(name), { redirect: 'follow' });
         const json = await resp.json();
         if (json.status !== 'ok') throw new Error(json.message || 'Unknown error');
-
         const entries = json.entries || [];
-
-        if (entries.length === 0) {
-          list.innerHTML = '<p class="empty">No entries yet. Log your first night above.</p>';
-          return;
-        }
-
+        if (entries.length === 0) { list.innerHTML = '<p class="empty">No entries yet. Log your first night above.</p>'; return; }
         list.innerHTML = entries.map(e => {
-          const qualityPct   = Math.min(parseFloat(e.quality) * 10, 100);
-          const qualityLabel = QUALITY_LABELS[Math.round(parseFloat(e.quality))] || '';
-          const awakenings   = e.awaken === 'Yes'
-            ? `Yes &mdash; ${e.awakenCount} time${e.awakenCount == 1 ? '' : 's'}`
-            : (e.awaken || '—');
-          const nightmaresVal = e.nightmares === 'Yes'
-            ? `Yes &mdash; ${e.nightmareCount} time${e.nightmareCount == 1 ? '' : 's'}`
-            : (e.nightmares || '—');
+          const qp = Math.min(parseFloat(e.quality) * 10, 100);
+          const ql = QUALITY_LABELS[Math.round(parseFloat(e.quality))] || '';
+          const aw = e.awaken === 'Yes' ? 'Yes &mdash; ' + e.awakenCount + ' time' + (e.awakenCount == 1 ? '' : 's') : (e.awaken || '&mdash;');
+          const nm = e.nightmares === 'Yes' ? 'Yes &mdash; ' + e.nightmareCount + ' time' + (e.nightmareCount == 1 ? '' : 's') : (e.nightmares || '&mdash;');
           const hidden = dismissedIds.has(e.id) ? ' style="display:none"' : '';
-
-          return `
-          <div class="entry" id="entry-${e.id}"${hidden}>
-            <div class="entry-header">
-              <span class="entry-date">${formatDate(e.date)}</span>
-              <button class="dismiss-btn" onclick="dismissEntry(${e.id})" title="Dismiss" aria-label="Dismiss entry">&times;</button>
-            </div>
-            <div class="entry-metrics">
-              <div class="metric-pill">Sleep: <span>${e.hours}h</span></div>
-              <div class="metric-pill" style="display:flex;align-items:center;gap:4px;">
-                Refreshed: <span>${parseFloat(e.quality).toFixed(1)}/10</span>
-                <div class="quality-bar-bg"><div class="quality-bar-fill" style="width:${qualityPct}%"></div></div>
-                <span style="font-weight:400;color:#8a4060;font-size:0.82rem;">${qualityLabel}</span>
-              </div>
-            </div>
-            <div class="entry-fields">
-              <div class="entry-field">
-                <span class="entry-field-label">Trouble falling asleep</span>
-                <span class="entry-field-val">${e.troubleSleeping || '—'}</span>
-              </div>
-              <div class="entry-field">
-                <span class="entry-field-label">Fell asleep around</span>
-                <span class="entry-field-val">${e.sleepTime || '—'}</span>
-              </div>
-              <div class="entry-field">
-                <span class="entry-field-label">Time to fall asleep</span>
-                <span class="entry-field-val">${e.sleepLatency || '—'}</span>
-              </div>
-              <div class="entry-field">
-                <span class="entry-field-label">Awoke during night</span>
-                <span class="entry-field-val">${awakenings}</span>
-              </div>
-              <div class="entry-field">
-                <span class="entry-field-label">Nightmares</span>
-                <span class="entry-field-val">${nightmaresVal}</span>
-              </div>
-              ${e.notes ? `<div class="entry-field">
-                <span class="entry-field-label">Notes</span>
-                <span class="entry-field-val">${escapeHtml(String(e.notes))}</span>
-              </div>` : ''}
-              ${e.nightmareDescription ? `<div class="entry-nightmare-desc">
-                <span class="entry-nightmare-desc-label">Nightmare description</span>
-                <span class="entry-nightmare-desc-text">"${escapeHtml(String(e.nightmareDescription))}"</span>
-              </div>` : ''}
-            </div>
-          </div>`;
+          return '<div class="entry" id="entry-' + e.id + '"' + hidden + '>' +
+            '<div class="entry-header"><span class="entry-date">' + formatDate(e.date) + '</span>' +
+            '<button class="dismiss-btn" onclick="dismissEntry(' + e.id + ')" title="Dismiss" aria-label="Dismiss">&times;</button></div>' +
+            '<div class="entry-metrics">' +
+            '<div class="metric-pill">Sleep: <span>' + e.hours + 'h</span></div>' +
+            '<div class="metric-pill" style="display:flex;align-items:center;gap:4px;">Refreshed: <span>' + parseFloat(e.quality).toFixed(1) + '/10</span><div class="quality-bar-bg"><div class="quality-bar-fill" style="width:' + qp + '%"></div></div><span style="font-weight:400;color:#8a4060;font-size:0.82rem;">' + ql + '</span></div>' +
+            '</div>' +
+            '<div class="entry-fields">' +
+            '<div class="entry-field"><span class="entry-field-label">Trouble falling asleep</span><span class="entry-field-val">' + (e.troubleSleeping || '&mdash;') + '</span></div>' +
+            '<div class="entry-field"><span class="entry-field-label">Fell asleep around</span><span class="entry-field-val">' + (e.sleepTime || '&mdash;') + '</span></div>' +
+            '<div class="entry-field"><span class="entry-field-label">Time to fall asleep</span><span class="entry-field-val">' + (e.sleepLatency || '&mdash;') + '</span></div>' +
+            '<div class="entry-field"><span class="entry-field-label">Awoke during night</span><span class="entry-field-val">' + aw + '</span></div>' +
+            '<div class="entry-field"><span class="entry-field-label">Nightmares</span><span class="entry-field-val">' + nm + '</span></div>' +
+            (e.notes ? '<div class="entry-field"><span class="entry-field-label">Notes</span><span class="entry-field-val">' + escapeHtml(String(e.notes)) + '</span></div>' : '') +
+            (e.nightmareDescription ? '<div class="entry-nightmare-desc"><span class="entry-nightmare-desc-label">Nightmare description</span><span class="entry-nightmare-desc-text">&ldquo;' + escapeHtml(String(e.nightmareDescription)) + '&rdquo;</span></div>' : '') +
+            '</div></div>';
         }).join('');
-
-      } catch (err) {
-        list.innerHTML = '<p class="history-error">Could not load history. Check your connection and try again.</p>';
-      }
+      } catch(err) { list.innerHTML = '<p class="history-error">Could not load history. Check your connection and try again.</p>'; }
     }
-
     async function logSleep() {
       const participant = document.getElementById('participant').value.trim();
-      const date  = dateInput.value;
+      const date = dateInput.value;
       const hours = parseFloat(document.getElementById('hours').value);
       const quality = parseFloat(qualityInput.value);
       const notes = document.getElementById('notes').value.trim();
-
       if (!participant) { alert('Please enter your study ID before saving.'); return; }
       if (!date) { alert('Please select the date for this entry.'); return; }
       if (isNaN(hours) || hours < 0 || hours > 24) { alert('Please enter how many hours you slept (between 0 and 24).'); return; }
-
       const troubleSleepingEl = document.querySelector('input[name="trouble-sleeping"]:checked');
       if (!troubleSleepingEl) { alert('Did you have trouble falling asleep? Please select Yes or No.'); return; }
       const troubleSleeping = troubleSleepingEl.value;
-
       const sleepTimeUnknown = document.getElementById('sleep-time-unknown').checked;
       const sleepTimeVal = document.getElementById('sleep-time').value;
       if (!sleepTimeUnknown && !sleepTimeVal) { alert('Please enter the time you fell asleep, or check "I don\'t know" if you\'re unsure.'); return; }
       const sleepTime = sleepTimeUnknown ? "I don't know" : sleepTimeVal;
-
-      const sleepLatencyHours   = document.getElementById('sleep-latency-hours').value;
-      const sleepLatencyMinutes = document.getElementById('sleep-latency-minutes').value;
-      if (sleepLatencyHours === '' && sleepLatencyMinutes === '') { alert('Please enter how long it took you to fall asleep. Enter 0 hours and 0 minutes if you fell asleep right away.'); return; }
-      const sleepLatency = `${sleepLatencyHours || '0'}h ${sleepLatencyMinutes || '0'}m`;
-
+      const slh = document.getElementById('sleep-latency-hours').value;
+      const slm = document.getElementById('sleep-latency-minutes').value;
+      if (slh === '' && slm === '') { alert('Please enter how long it took you to fall asleep. Enter 0 hours and 0 minutes if you fell asleep right away.'); return; }
+      const sleepLatency = (slh || '0') + 'h ' + (slm || '0') + 'm';
       const awakenEl = document.querySelector('input[name="awaken"]:checked');
       if (!awakenEl) { alert('Did you wake up during the night? Please select Yes or No.'); return; }
       const awaken = awakenEl.value;
       const awakenCount = awaken === 'Yes' ? (parseInt(document.getElementById('awaken-count').value) || '') : '';
       if (awaken === 'Yes' && !awakenCount) { alert('Please enter how many times you woke up during the night.'); return; }
-
       const nightmaresEl = document.querySelector('input[name="nightmares"]:checked');
       if (!nightmaresEl) { alert('Did you experience any nightmares? Please select Yes or No.'); return; }
       const nightmares = nightmaresEl.value;
       const nightmareCount = nightmares === 'Yes' ? (parseInt(document.getElementById('nightmare-count').value) || '') : '';
       if (nightmares === 'Yes' && !nightmareCount) { alert('Please enter how many nightmares you had.'); return; }
       const nightmareDescription = nightmares === 'Yes' ? document.getElementById('nightmare-description').value.trim() : '';
-
       const entry = { participant, date, hours, quality, sleepTime, sleepLatency, troubleSleeping, awaken, awakenCount, nightmares, nightmareCount, nightmareDescription, notes };
-
       const btn = document.getElementById('save-btn');
-      btn.disabled = true;
-      btn.textContent = 'Saving…';
-
-      try {
-        await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(entry)
-        });
-      } catch (err) { /* no-cors -- can't read response */ }
-
+      btn.disabled = true; btn.textContent = 'Saving…';
+      try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(entry) }); } catch(err) {}
       showToast('Entry saved!', false);
       resetForm();
-
-      // Wait for Sheets to process, then refresh history
       setTimeout(loadHistory, 2000);
     }
-
     function resetForm() {
-      document.getElementById('hours').value = '';
-      document.getElementById('notes').value = '';
-      document.getElementById('sleep-time').value = '';
-      document.getElementById('sleep-latency-hours').value = '';
-      document.getElementById('sleep-latency-minutes').value = '';
+      ['hours','notes','sleep-time','sleep-latency-hours','sleep-latency-minutes'].forEach(id => document.getElementById(id).value = '');
       document.getElementById('sleep-time').disabled = false;
       document.getElementById('sleep-time-unknown').checked = false;
       document.querySelectorAll('input[name="trouble-sleeping"]').forEach(r => r.checked = false);
@@ -692,33 +226,13 @@
       document.getElementById('nightmare-count').value = '';
       document.getElementById('nightmare-description').value = '';
       document.getElementById('nightmare-count-wrapper').style.display = 'none';
-      qualityInput.value = 7;
-      qualityVal.textContent  = '7.0';
-      qualityDesc.textContent = QUALITY_LABELS[7];
+      qualityInput.value = 7; qualityVal.textContent = '7.0'; qualityDesc.textContent = QUALITY_LABELS[7];
       dateInput.value = new Date().toISOString().split('T')[0];
-      const btn = document.getElementById('save-btn');
-      btn.disabled = false;
-      btn.textContent = 'Save Entry';
+      const btn = document.getElementById('save-btn'); btn.disabled = false; btn.textContent = 'Save Entry';
     }
-
-    function showToast(msg, isError) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.className = 'toast' + (isError ? ' error' : '') + ' show';
-      setTimeout(() => t.classList.remove('show'), 2800);
-    }
-
-    function formatDate(str) {
-      if (!str) return '—';
-      const [y, m, d] = str.split('-');
-      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      return `${months[+m-1]} ${+d}, ${y}`;
-    }
-
-    function escapeHtml(str) {
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
+    function showToast(msg, isError) { const t = document.getElementById('toast'); t.textContent = msg; t.className = 'toast' + (isError ? ' error' : '') + ' show'; setTimeout(() => t.classList.remove('show'), 2800); }
+    function formatDate(str) { if (!str) return '&mdash;'; const [y,m,d] = str.split('-'); const mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return mo[+m-1] + ' ' + (+d) + ', ' + y; }
+    function escapeHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     document.getElementById('history-list').innerHTML = '<p class="empty">Enter your ID above to see your history.</p>';
   </script>
 </body>
